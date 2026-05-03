@@ -1,0 +1,37 @@
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install & Build
+        run: |
+          cd frontend
+          npm install --legacy-peer-deps
+          npm run build
+        env:
+          NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
+
+      - name: Deploy to Vercel
+        run: |
+          cd frontend
+          npx vercel --prod --yes \
+            --token="${{ secrets.VERCEL_TOKEN }}" \
+            --scope="${{ secrets.VERCEL_ORG_ID }}"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

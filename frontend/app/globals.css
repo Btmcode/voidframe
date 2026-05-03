@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #00ff88;
+  --green-dim: #00cc6a;
+  --green-dark: #003a1a;
+  --amber: #ffb800;
+  --red: #ff3355;
+  --bg: #03080a;
+  --bg-panel: #060e10;
+  --bg-card: #07101200;
+  --border: #0c2a1a;
+  --border-bright: rgba(0,255,136,0.25);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* CRT scanlines */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); border-radius: 2px; }
+
+::selection { background: var(--green); color: var(--bg); }
+
+.panel {
+  background: rgba(7, 16, 10, 0.9);
+  border: 1px solid var(--border);
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0.3;
+}
+
+.glow-text { text-shadow: 0 0 10px var(--green), 0 0 20px rgba(0,255,136,0.3); }
+.glow-box { box-shadow: 0 0 15px rgba(0,255,136,0.2), inset 0 0 15px rgba(0,255,136,0.03); }
+
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: var(--green);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+.progress-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.progress-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 25%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,136,0.5), transparent);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+  50% { opacity: 0.4; box-shadow: none; }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .panel { border-radius: 2px; }
+}

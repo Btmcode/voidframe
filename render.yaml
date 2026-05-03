@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: voidframe-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: >
+      npm install &&
+      apt-get install -y ffmpeg &&
+      npx playwright install chromium --with-deps &&
+      pip3 install gtts requests --break-system-packages
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+    disk:
+      name: renders-storage
+      mountPath: /opt/render/project/storage/renders
+      sizeGB: 1
