@@ -46,6 +46,8 @@ function emitLog(jobId, msg) {
 }
 
 // ── Routes ────────────────────────────────────────────────────────────────────
+app.get("/", (_, res) => res.json({ name: "VOIDFRAME API", status: "ok", version: "1.0.0" }));
+
 app.get('/health', (_, res) => res.json({
   status: 'ok',
   ts: Date.now(),
