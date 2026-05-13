@@ -1,27 +1,44 @@
 services:
+  # ── Backend ───────────────────────────────────────────────────────
   - type: web
     name: voidframe-backend
     runtime: node
     rootDir: backend
     plan: free
-    buildCommand: >
-      npm install &&
-      apt-get install -y ffmpeg &&
-      npx playwright install chromium --with-deps &&
-      pip3 install gtts requests --break-system-packages
+    buildCommand: npm install
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 4000
+      - key: FRONTEND_URL
+        fromService:
+          name: voidframe-frontend
+          type: web
+          property: host
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: GEMINI_API_KEY
-        sync: false
-      - key: FRONTEND_URL
         sync: false
     disk:
       name: renders-storage
       mountPath: /opt/render/project/storage/renders
       sizeGB: 1
+
+  # ── Frontend ──────────────────────────────────────────────────────
+  - type: web
+    name: voidframe-frontend
+    runtime: node
+    rootDir: frontend
+    plan: free
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_BACKEND_URL
+        fromService:
+          name: voidframe-backend
+          type: web
+          property: host
