@@ -1,5 +1,4 @@
 services:
-  # ── Backend ───────────────────────────────────────────────────────
   - type: web
     name: voidframe-backend
     runtime: node
@@ -10,29 +9,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: FRONTEND_URL
-        fromService:
-          name: voidframe-frontend
-          type: web
-          property: host
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: GEMINI_API_KEY
         sync: false
-
-  # ── Frontend ──────────────────────────────────────────────────────
-  - type: web
-    name: voidframe-frontend
-    runtime: node
-    rootDir: frontend
-    plan: free
-    buildCommand: npm install --legacy-peer-deps && npm run build
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: NEXT_PUBLIC_BACKEND_URL
-        fromService:
-          name: voidframe-backend
-          type: web
-          property: host
+      - key: FRONTEND_URL
+        value: https://voidframe.vercel.app

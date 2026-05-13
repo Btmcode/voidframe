@@ -1,11 +1,6 @@
 {
   "version": 2,
-  "name": "voidframe",
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": ".next",
-  "env": {
-    "NEXT_PUBLIC_BACKEND_URL": "@backend_url"
-  }
+  "installCommand": "npm install --legacy-peer-deps"
 }
