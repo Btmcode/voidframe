@@ -21,10 +21,6 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
-    disk:
-      name: renders-storage
-      mountPath: /opt/render/project/storage/renders
-      sizeGB: 1
 
   # ── Frontend ──────────────────────────────────────────────────────
   - type: web

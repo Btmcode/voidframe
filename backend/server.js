@@ -26,7 +26,7 @@ app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 
 // Serve rendered videos
-const RENDERS_DIR = path.join(__dirname, '../storage/renders');
+const RENDERS_DIR = process.env.RENDERS_DIR || path.join(require('os').tmpdir(), 'voidframe-renders');
 if (!fs.existsSync(RENDERS_DIR)) fs.mkdirSync(RENDERS_DIR, { recursive: true });
 app.use('/renders', express.static(RENDERS_DIR));
 
