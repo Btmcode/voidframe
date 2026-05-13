@@ -23,7 +23,10 @@ export default function Home() {
     let i = 0;
     const interval = setInterval(() => {
       if (i < BOOT_LINES.length) {
-        setBootLines(prev => [...prev, BOOT_LINES[i]]);
+        const line = BOOT_LINES[i];
+        if (line !== undefined) {
+          setBootLines(prev => [...prev, line]);
+        }
         i++;
       } else {
         clearInterval(interval);
@@ -59,7 +62,7 @@ export default function Home() {
         /* Boot screen */
         <div style={{ maxWidth: 720, margin: '80px auto', padding: '0 24px' }}>
           <div className="panel" style={{ padding: 32, borderRadius: 4 }}>
-            {bootLines.map((line, i) => (
+            {bootLines.filter(Boolean).map((line, i) => (
               <div key={i} style={{
                 fontSize: 13,
                 marginBottom: 6,
